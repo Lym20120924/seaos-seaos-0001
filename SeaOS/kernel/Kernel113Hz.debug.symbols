@@ -1,0 +1,70 @@
+# SeaOS 113 Hz – Debug Symbol Map (build 10068.35)
+# -------------------------------------------------
+# 此文件为 YAML 格式，供开发者 / 调试脚本读取。
+# 字段说明：
+#   name       – 符号名称
+#   type       – function / data / const
+#   address    – 链接地址(占位，可由链接脚本/objdump 自动覆盖)
+#   size       – 字节数 (可选)
+#   desc       – 描述
+#
+# 后续在 64-bit 链接脚本内可自动替换 address/size 字段，或在
+# CI 阶段由 `objdump -t` 输出 JSON 再 merge。本初版采用占位
+# 地址，方便阅读与脚本解析。
+
+build: 10068.35
+
+symbols:
+  - name: sea113hz_kernel_main
+    type: function
+    address: 0x0000000000100000    # TBD – will be patched by linker
+    desc: "113Hz 内核入口，调度各子系统初始化"
+
+  - name: sea113hz_init
+    type: function
+    address: 0x0000000000100100
+    desc: "初始化所有子系统"
+
+  - name: init_subsystem
+    type: function
+    address: 0x0000000000100200
+    desc: "初始化单个子系统"
+
+  - name: g_subsystems
+    type: data
+    address: 0x0000000000200000
+    size: 0x400
+    desc: "subsystem 描述符数组 (SUBSYS_MAX=8)"
+
+subsystems:
+  - id: 0x100
+    name: Scheduler
+    desc: "任务调度器"
+
+  - id: 0x110
+    name: VirtualMemory
+    desc: "虚拟内存管理"
+
+  - id: 0x120
+    name: Drivers
+    desc: "驱动框架"
+
+  - id: 0x130
+    name: FileSystem
+    desc: "文件系统栈"
+
+  - id: 0x140
+    name: Networking
+    desc: "网络栈"
+
+  - id: 0x150
+    name: AI-Fleet
+    desc: "自愈 & 安全 AI 集群"
+
+  - id: 0x160
+    name: LocaleManager
+    desc: "语言包 / i18n"
+
+  - id: 0x170
+    name: UI/Compositor
+    desc: "UI 层 / 动画合成器"
